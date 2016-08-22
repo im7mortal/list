@@ -22,6 +22,8 @@
 from sys import argv
 import json
 
+import numpy as np
+import matplotlib.pyplot as plt
 
 script, filename = argv
 
@@ -29,9 +31,38 @@ raw_data = open(filename)
 
 data = json.loads(raw_data.read())
 
-for chunk in data:
-    print("j1/j2 = " + str(chunk["W"]))
-    for l in chunk["data"]:
-        print("W=" + str(chunk["W"]) + ";\t" + "l=" + str(l["l"]) + ";\t\t\t" + "countOfPoints=" + str(len(l["data"])) + ";" )
+# for chunk in data:
+#     print("j1/j2 = " + str(chunk["W"]))
+#     for l in chunk["data"]:
+#         print("W=" + str(chunk["W"]) + ";\t" + "l=" + str(l["l"]) + ";\t\t\t" + "countOfPoints=" + str(len(l["data"])) + ";" )
 
+x = []
+y = []
+
+
+for chunk in data:
+    chunk = data[7]
+    for l in chunk["data"]:
+        for a in l["data"]:
+            x.append(a[0])
+            y.append(a[1])
+        x = np.array(x)
+        y = np.array(y)
+        plt.plot(x, y, 'g')
+        x = []
+        y = []
+    chunk = data[0]
+    for l in chunk["data"]:
+        for a in l["data"]:
+            x.append(a[0])
+            y.append(a[1])
+        x = np.array(x)
+        y = np.array(y)
+        plt.plot(x, y, 'r--')
+        x = []
+        y = []
+    # break
+
+
+plt.show()
 
