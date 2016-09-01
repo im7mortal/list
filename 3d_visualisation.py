@@ -2,13 +2,13 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import csv
 from matplotlib import cm
+import numpy as np
 
 csv_file = open("data.csv")
 
 reader = csv.reader(csv_file)
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
+
 x_ = []
 y_ = []
 z_ = []
@@ -67,9 +67,12 @@ Z = []
 
 for i, w in enumerate(x):
     if prev_c != c[i]:
-        X.append(xx)
-        Y.append(yy)
-        Z.append(zz)
+        print len(xx)
+        print len(yy)
+        print len(zz)
+        X.append(np.array(xx[:86]))
+        Y.append(np.array(yy[:86]))
+        Z.append(np.array(zz[:86]))
         xx = []
         yy = []
         zz = []
@@ -78,7 +81,13 @@ for i, w in enumerate(x):
     yy.append(y[i])
     zz.append(z[i])
 
-# ax.plot_wireframe(X, Y, Z, rstride=10, cstride=10)
+X = np.array(X)
+Y = np.array(Y)
+Z = np.array(Z)
 
 
+
+fig = plt.figure()
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(Z, Y, X, cmap="jet")
 plt.show()
